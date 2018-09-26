@@ -16,7 +16,7 @@
     "url": "https://github.com/jasonbellamy/react-mailto/issues"
   },
   "license": "MIT",
-  "main": "dist/react-mailto",
+  "main": "src/react-mailto",
   "engines": {
     "node": ">= 0.10.0"
   },
