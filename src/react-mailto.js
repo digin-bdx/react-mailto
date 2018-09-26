@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 export const toSearchString = (searchParams = {}) => {
   return Object.keys(searchParams).map(key =>
@@ -15,15 +16,9 @@ export const createMailtoLink = (email, headers) => {
   return link;
 };
 
-class Mailto extends Component {
+class Mailto extends PureComponent {
 
-  render () {
-    return this.props.obfuscate ?
-      this.renderObfuscatedLink() :
-      this.renderLink();
-  }
-
-  renderLink () {
+  _renderLink() {
     const { email, obfuscate, headers, children, ...others } = this.props;
     return (
       <a href={createMailtoLink(email, headers)} {...others}>
@@ -32,7 +27,7 @@ class Mailto extends Component {
     );
   }
 
-  renderObfuscatedLink () {
+  _renderObfuscatedLink() {
     const { email, obfuscate, headers, children, ...others } = this.props;
     return (
       <a onClick={this.handleClick.bind(this)} href="mailto:obfuscated" {...others}>
@@ -41,10 +36,18 @@ class Mailto extends Component {
     );
   }
 
-  handleClick (event) {
+  _handleClick(event) {
     event.preventDefault();
     const { email, headers } = this.props;
     window.location.href = createMailtoLink(email, headers);
+  }
+
+  render () {
+    const { obfuscate } = this.props;
+
+    return obfuscate ?
+      this._renderObfuscatedLink() :
+      this._renderLink();
   }
 }
 
